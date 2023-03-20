@@ -28,41 +28,35 @@ function renderMarkup(countries) {
      } else if(countries.length > 2 && countries.length < 10) {
             appendlistMarkup(countries);
         } else {
-            for (const country of countries) {
-                appendInfoMarkup(country);
-            }
+            appendInfoMarkup(countries);
         }
 }
 
 
-function appendInfoMarkup(country) {
+function appendInfoMarkup(countries) {
 
-    console.log('1 страна', country);
-    const { name: { official }, flags: { svg }, capital, population, languages } = country;
-    const language = Object.values(languages).join(", ");
-
-    const infoMarkup = `
-    <h1><span>${flags.svg}</span>${name.official}</h1>
+    const infoMarkup = countries.map(({ name: { official }, flags: { svg }, capital, population, languages }) => { 
+        const language = Object.values(languages).join(", ");
+        `
+    <h1><img src="${svg}"/><span>${official}</span></h1>
         <p>Capital: ${capital}</p>
         <p>Population:  ${population}</p>
-        <p>Languages:  ${language}</p>`;
+        <p>Languages:  ${language}</p>`; }).join('');
 
-    infoRef.innerHTML = infoMarkup;
+        for (const country of countries) {
+            listRef.innerHTML = infoMarkup;
+        }
 }
 
 
 function appendlistMarkup(countries) {
-    countries.map((country) =>{
-    const { name: { official }, flags: { svg }} = country;
 
-    const listMarkup = `
+    const listMarkup = countries.map(({ name: { official }, flags: { svg }}) => { `
     <li class="country-list__item">
-        <h1><span>${flags.svg}</span>${name.official}</h1>
-      </li>
-`;
+        <img src="${svg}"/><span>${official}</span>
+      </li>`; }).join('');
+
      listRef.innerHTML = listMarkup;
 
-
-}).join('');
 }
     
