@@ -16,13 +16,17 @@ inputRef.addEventListener('input', debounce(inputFetch, DEBOUNCE_DELAY));
 
 function inputFetch(searchQuery) {
     searchQuery = inputRef.value.trim();
-    fetchCountries(searchQuery)
+
+    if (searchQuery) {
+        fetchCountries(searchQuery)
     .then((countries) => renderMarkup(countries))
     .catch(error => { 
         console.error(error);
         Notiflix.Notify.failure("Oops, there is no country with that name");
+        listRef.innerHTML = "";
+        infoRef.innerHTML = "";
     });
-
+    }
 }
 
 function renderMarkup(countries) {
